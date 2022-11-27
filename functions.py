@@ -168,3 +168,113 @@ def changePreferredPayment(preferredPayment):
             i = index
     df_users.at[i,'preferredPayment'] = preferredPayment
     df_users.to_csv('users.csv', index=False)
+
+# Cart class
+def checkInventory(isbn):
+    df_inventory = pd.read_csv('inventory.csv')
+    i = None
+    for index, row in df_inventory.iterrows():
+        if (row['isbn'] == str(isbn)) & (row['stock'] > 0):
+            return True
+    return False
+
+def addItem(isbn):
+    username = getLoggedUser()
+    df_cart = pd.read_csv('cart.csv')
+    df_inventory = pd.read_csv('inventory.csv')
+    for index, row in df_inventory.iterrows():
+        if (row['isbn'] == str(isbn)):
+            retailPrice = row['retailPrice']
+    df_cart.loc[len(df_cart.index)] = [isbn, retailPrice, username]
+    df_cart.to_csv('cart.csv', index=False)
+
+def removeItem(isbn):
+    username = getLoggedUser()
+    df_cart = pd.read_csv('cart.csv')
+    i = None
+    for index, row in df_cart.iterrows():
+        if (row['isbn'] == str(isbn)):
+            i = index
+    df_cart.drop(i, axis=0, inplace=True)
+    df_cart.to_csv('cart.csv', index=False)
+
+def totalPrice():
+    username = getLoggedUser()
+    df_cart = pd.read_csv('cart.csv')
+    totalPrice = 0
+    for index, row in df_cart.iterrows():
+        totalPrice = totalPrice + row['retailPrice']
+    return totalPrice
+
+def checkout():
+    username = getLoggedUser()
+    df_cart = pd.read_csv('cart.csv')
+    df_inventory = pd.read_csv('inventory.csv')
+    for index, row in df_cart.iterrows():
+        if row['username'] == str(username):
+            isbn = row['isbn']
+            i = None
+            stock = None
+            for index, row in df_inventory.iterrows():
+                if row['isbn'] == str(isbn):
+                    i = index
+                    stock = row['stock']
+            df_inventory.at[i,'stock'] = stock - 1     
+    df_cart = df_cart[df_cart['username'] != str(username)]
+    df_cart.to_csv('cart.csv', index=False)
+    df_inventory.to_csv('inventory.csv', index=False)
+
+# Book class
+def newBook(isbn, title, genre, author, datePublished):
+    df_books = pd.read_csv('books.csv')
+    df_books.loc[len(df_books.index)] = [isbn, title, genre, author, datePublished]
+    df_books.to_csv('books.csv', index=False)
+
+def getBookTitle(isbn):
+    df_books = pd.read_csv('books.csv')
+    for index, row in df_books.iterrows():
+        if row['isbn'] == str(isbn):
+            print(row['title'])
+
+def getBookGenre(isbn):
+    df_books = pd.read_csv('books.csv')
+    for index, row in df_books.iterrows():
+        if row['isbn'] == str(isbn):
+            print(row['genre'])
+
+def getBookAuthor(isbn):
+    df_books = pd.read_csv('books.csv')
+    for index, row in df_books.iterrows():
+        if row['isbn'] == str(isbn):
+            print(row['author'])
+
+def getBookDate(isbn):
+    df_books = pd.read_csv('books.csv')
+    for index, row in df_books.iterrows():
+        if row['isbn'] == str(isbn):
+            print(row['datePublished'])
+
+def changeBookTitle(isbn, title):
+    df_books = pd.read_csv('books.csv')
+    df_books.loc[df_books["isbn"] == str(isbn), "title"] = title
+    df_books.to_csv('books.csv', index=False)
+
+def changeBookGenre(isbn, genre):
+    df_books = pd.read_csv('books.csv')
+    df_books.loc[df_books["isbn"] == str(isbn), "genre"] = genre
+    df_books.to_csv('books.csv', index=False)
+
+def changeBookAuthor(isbn, author):
+    df_books = pd.read_csv('books.csv')
+    df_books.loc[df_books["isbn"] == str(isbn), "author"] = author
+    df_books.to_csv('books.csv', index=False)
+
+def changeBookDate(isbn, datePublished):
+    df_books = pd.read_csv('books.csv')
+    df_books.loc[df_books["isbn"] == str(isbn), "datePublished"] = datePublished
+    df_books.to_csv('books.csv', index=False)
+
+def changeBookIsbn(isbn, newIsbn):
+    df_books = pd.read_csv('books.csv')
+    df_books.loc[df_books["isbn"] == str(isbn), "isbn"] = newIsbn
+    df_books.to_csv('books.csv', index=False)
