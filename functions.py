@@ -18,7 +18,7 @@ def verifyAdmin():
 
 # Inventory class 
 class Inventory:
-  def showInventory():
+  def showInventory(): #Prints out items in the inventory
     df_inventory = pd.read_csv('inventory.csv')
     for index, row in df_inventory.iterrows():
       print(Book.getBookTitle(row['isbn']))
@@ -204,7 +204,7 @@ class User:
       df_users.at[i,'preferredPayment'] = preferredPayment
       df_users.to_csv('users.csv', index=False)
 
-  def addOrderHistory(order):
+  def addOrderHistory(order): #adds an order to the person's order history
     username = getLoggedUser()
     df_users = pd.read_csv('users.csv')
     i = None
@@ -214,7 +214,7 @@ class User:
     df_users.at[i,'orderHistory'] += order
     df_users.to_csv('users.csv', index=False)
 
-  def showOrderHistory():
+  def showOrderHistory(): #prints out the user's order history
     username = getLoggedUser()
     df_users = pd.read_csv('users.csv')
     for index, row in df_users.iterrows():
