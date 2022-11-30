@@ -1,3 +1,5 @@
-username,displayName,password,email,address,zip,preferredPayment,logged,admin
-admin,admin,admin,-,-,-,-,False,True
-Tom,tom_,123a,mail@mail.com,Main Street 1,39759,card,True,False
+username,displayName,password,email,address,zip,preferredPayment,logged,admin,orderHistory
+admin,admin,admin,-,-,-,-,False,True,None
+Tom,tom_,123a,mail@mail.com,Main Street 1,39759,card,False,False, Order History:
+borebagger,JoJo,Password69,jogames8,188 mallard,39047,zelle,False,False,Order History: 
+James,jamesZ,secret,gmail@gmail.com,Blackjack,39039,wire,False,False,Order History: Order1984Price: $9.99Hitchhiker's Guide to the GalaxyPrice: $19.99Order total: $29.979999999999997
