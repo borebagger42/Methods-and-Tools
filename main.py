@@ -10,7 +10,7 @@ sel = None
 while(logTest):
   logTest = fn.User.logout()
 
-#Prompts the user to select a number and stores it in sel  
+#Prompts the user to select a number and stores it in global variable sel  
 def select():
   global sel
   inpCheck = True
@@ -25,17 +25,17 @@ def select():
   
 
 print("Welcome to our shop! \nTo navigate our menu: \nplease type the integer value associated with the option you would like to select and no other characters!")
-while (introScreen): #Loops until someone succesfully logs in, creates an account, or exits
+while (introScreen): #Loops until someone exits
   print("\n1. Log In \n2. Create Account \n3. Exit")
   select()
-  if (sel == 1):
+  if (sel == 1): #Log in option
     print("Please enter your username: ", end="")
     username = input()
     print("Please enter your password: ", end="")
     password = input()
     if (fn.User.login(username,password)):
       print("Congrats you are logged in")
-  elif (sel == 2):
+  elif (sel == 2): #Create account option
     print("Please enter your username: ", end="")
     username = input()
     print("Please enter your displayName: ", end="")
@@ -52,20 +52,20 @@ while (introScreen): #Loops until someone succesfully logs in, creates an accoun
     preferredPayment = input()
     fn.User.addUser(username, displayName, password, email, address, zip, preferredPayment, True, True,"Order History: ")
     print("Congrats you have added an account and are logged in!" )
-  elif(sel == 3):
+  elif(sel == 3): #Exit option
     introScreen = False
     menuScreen = False
     
-  while (menuScreen):
+  while (menuScreen): #Loops until someone logs out, deletes their account, or exits
     print("\nHere are your options: ")
     print("1. Change Account Info \n2. View Inventory \n3. View Cart \n4. Add To Cart \n5. Remove From Cart \n6. Checkout (This will add the order to your Order History) \n7. View Order History \n8. Logout \n9. Delete Account \n10. Exit")
     select()
-    if (sel == 1):
+    if (sel == 1): #Another branch of the menu to change all account options
       print("1. Change username \n2. Change Display Name \n3. Change Password \n4. Change Email \n5. Change Address \n6. Change Zip \n7. Change Preferred Payment \n8. Exit")
       select()
       print("Please enter your updated information: ", end="")
       updatedInfo = input()
-      if (sel == 1):
+      if (sel == 1): #Each of these if branches are different types of account info to change
         fn.User.changeUsername(updatedInfo)
         print("Your Username has been updated")
       if (sel == 2):
@@ -86,38 +86,38 @@ while (introScreen): #Loops until someone succesfully logs in, creates an accoun
       if (sel == 7):
         fn.User.changePreferredPayment(updatedInfo)
         print("Your Preffered Payment has been updated")
-      if (sel == 8):
+      if (sel == 8): #Exit option
         menuScreen = False
         introScreen = False
       
-    if (sel == 2): 
+    if (sel == 2):  #Show inventory option
       fn.Inventory.showInventory()
-    if (sel == 3):
+    if (sel == 3): #Show cart option
       fn.Cart.showCart()
-    if (sel == 4):
+    if (sel == 4): #Add to cart option
       print("Please enter the ISBN of the book you want to purchase: ", end="")
       isbn = input()
       fn.Cart.addItem(isbn)
       print(fn.Book.getBookTitle(isbn), "added to cart \n")
-    if (sel == 5):
+    if (sel == 5): #Remove from Cart option
       print("Please enter the ISBN of the book you want to remove from your cart: ", end="")
       isbn = input()
       fn.Cart.removeItem(isbn)
       print(fn.Book.getBookTitle(isbn), "removed from cart \n")
-    if (sel == 6):
+    if (sel == 6): #Check out option
       fn.Cart.checkout()
       print("You have checked out! \n")
-    if (sel == 7):
+    if (sel == 7): #Show order history option
       fn.User.showOrderHistory()
-    if (sel == 8):
+    if (sel == 8): #Logout option
       fn.User.logout()
       menuScreen = False
-    if (sel == 9):
+    if (sel == 9): #delete account option
       print("Please enter your current username: ", end="")
       username = input()
       fn.User.deleteUser(username)
       print("Your account has been deleted \nexiting...")
       menuScreen = False
-    if (sel == 10):
+    if (sel == 10): #Exit option
       menuScreen = False
       introScreen = False
