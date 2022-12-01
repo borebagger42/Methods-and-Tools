@@ -96,6 +96,15 @@ class User:
       df_users = pd.read_csv('users.csv')
       df_users = df_users[df_users['username'] != username]
       df_users.to_csv('users.csv', index=False)
+      df_cart = pd.read_csv('cart.csv')
+      i = None
+      for index, row in df_cart.iterrows():
+        if (row['username'] == username):
+          i = index
+      if (i != None):
+        df_cart.drop(i, axis=0, inplace=True)
+        df_cart.to_csv('cart.csv', index=False)
+        
   
   # log in a user
   def login(username, password):
@@ -276,7 +285,7 @@ class Cart:
     for index, row in df_cart.iterrows():
       if(row['username'] == username):
         totalPrice = totalPrice + row['retailPrice']
-    return totalPrice
+    return (round(totalPrice,2))
 
   # checkout user's cart
   def checkout():
@@ -287,9 +296,9 @@ class Cart:
     order = "Order: "
     for index, row in df_cart.iterrows():
       if(row['username'] == username):
-        order += Book.getBookTitle(row['isbn'])
-        order += "Price: $" + str(row['retailPrice'])
-    order += "Order total: $"+str(Cart.totalPrice())
+        order +=" " + Book.getBookTitle(row['isbn'])
+        order += " Price: $" + str(row['retailPrice'])
+    order += " Order total: $"+str(Cart.totalPrice())
     User.addOrderHistory(order)
     
     for index, row in df_cart.iterrows():
